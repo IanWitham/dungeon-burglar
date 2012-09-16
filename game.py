@@ -7,6 +7,7 @@ LIMIT_FPS = 20
 libtcod.console_set_custom_font('arial10x10.png', libtcod.FONT_TYPE_GREYSCALE | libtcod.FONT_LAYOUT_TCOD)
 
 libtcod.console_init_root(SCREEN_WIDTH, SCREEN_HEIGHT, 'python/libtcod tutorial', False)
+con = libtcod.console_new(SCREEN_WIDTH, SCREEN_HEIGHT)
 
 libtcod.sys_set_fps(LIMIT_FPS)
 
@@ -35,11 +36,13 @@ def handle_keys():
         playerx += 1
 
 while not libtcod.console_is_window_closed():
-    libtcod.console_set_default_background(0, libtcod.white)
-    libtcod.console_print(0, playerx, playery, '@')
+    libtcod.console_set_default_background(con, libtcod.white)
+    libtcod.console_print(con, playerx, playery, '@')
+    libtcod.console_blit(con, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0)
     libtcod.console_flush()
 
     # handle keys and exit game if needed
+    libtcod.console_print(con, playerx, playery, ' ')
     exit = handle_keys()
     if exit:
         break
