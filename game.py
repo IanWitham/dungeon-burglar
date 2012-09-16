@@ -10,8 +10,37 @@ libtcod.console_init_root(SCREEN_WIDTH, SCREEN_HEIGHT, 'python/libtcod tutorial'
 
 libtcod.sys_set_fps(LIMIT_FPS)
 
+playerx = SCREEN_WIDTH/2
+playery = SCREEN_HEIGHT/2
+
+def handle_keys():
+    global playerx, playery
+
+    key = libtcod.console_check_for_keypress()
+    if key.vk == libtcod.KEY_ENTER and key.lalt:
+        # Alt+Enter: toggle fullscreen
+        libtcod.console_set_fullscreen(not libtcod.console_is_fullscreen())
+
+    elif key.vk == libtcod.KEY_ESCAPE:
+        return True #exit game
+
+    # movement keys
+    if libtcod.console_is_key_pressed(libtcod.KEY_UP):
+        playery -= 1
+    if libtcod.console_is_key_pressed(libtcod.KEY_DOWN):
+        playery += 1
+    if libtcod.console_is_key_pressed(libtcod.KEY_LEFT):
+        playerx -= 1
+    if libtcod.console_is_key_pressed(libtcod.KEY_RIGHT):
+        playerx += 1
+
 while not libtcod.console_is_window_closed():
     libtcod.console_set_default_background(0, libtcod.white)
-    libtcod.console_print(0, 1, 1, '@')
+    libtcod.console_print(0, playerx, playery, '@')
     libtcod.console_flush()
+
+    # handle keys and exit game if needed
+    exit = handle_keys()
+    if exit:
+        break
 
